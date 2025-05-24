@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
@@ -222,25 +223,29 @@ const CompanyReportsView = () => {
       {/* Reports Grid - Mobile responsive */}
       <div className="space-y-4">
         {filteredReports.map((report) => (
-          <Card key={report.id} className="bg-slate-900/60 border-slate-800/50 backdrop-blur-sm p-3 sm:p-4 hover:bg-slate-900/80 transition-colors">
-            {/* Header */}
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-blue-400 font-semibold text-base sm:text-lg">{report.ticker}</span>
-              <Badge className={`${getReportTypeBadgeColor(report.reportType)} px-2 py-1 text-xs flex-shrink-0`}>
-                {report.reportType}
-              </Badge>
+          <Card key={report.id} className="bg-slate-900/80 border-slate-800/60 p-3 sm:p-6 hover:bg-slate-900/90 transition-colors">
+            <div className="flex items-start justify-between mb-4">
+              <div className="flex-1 min-w-0">
+                <div className="flex flex-wrap items-center space-x-2 sm:space-x-3 mb-2 gap-y-2">
+                  <Badge variant="outline" className="border-purple-600 text-purple-400 bg-purple-600/10 hover:border-purple-600 hover:text-purple-400 hover:bg-purple-600/10 pointer-events-none">
+                    {report.company}
+                  </Badge>
+                  <Badge className={`${getReportTypeBadgeColor(report.reportType)} flex-shrink-0`}>
+                    {report.reportType}
+                  </Badge>
+                  <span className="text-xs sm:text-sm text-slate-300">{report.date}</span>
+                </div>
+                <h3 className="text-base sm:text-lg font-semibold text-slate-50 mb-2">
+                  <span className="text-blue-400 font-semibold">{report.ticker}</span> - {report.title}
+                </h3>
+              </div>
             </div>
-            
-            {/* Company Info */}
-            <div className="space-y-1 mb-4">
-              <h3 className="text-slate-50 font-medium text-sm sm:text-base">{report.company}</h3>
-              <p className="text-slate-50 font-semibold text-sm sm:text-base">{report.title}</p>
-              <p className="text-slate-300 text-xs sm:text-sm">Released: {report.date}</p>
-            </div>
+
+            <p className="text-slate-200 leading-relaxed mb-4 text-sm sm:text-base">{report.summary}</p>
             
             {/* Metrics */}
-            <div className="space-y-3 mb-4">
-              <div className="grid grid-cols-3 gap-2 sm:gap-4 text-xs sm:text-sm">
+            <div className="space-y-2 mb-4">
+              <div className="grid grid-cols-3 gap-3 sm:gap-4 text-xs sm:text-sm">
                 <div className="min-w-0">
                   <span className="text-slate-300 block">Revenue</span>
                   <span className="text-slate-50 font-semibold truncate block">{report.keyMetrics.revenue}</span>
@@ -256,17 +261,13 @@ const CompanyReportsView = () => {
               </div>
             </div>
             
-            {/* Summary */}
-            <p className="text-slate-200 text-xs sm:text-sm leading-relaxed mb-4">{report.summary}</p>
-            
-            {/* Action Button */}
-            <Button 
-              variant="default" 
-              size="sm" 
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white border-0"
-            >
-              View Full Report
-            </Button>
+            {/* Footer with link */}
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 text-xs sm:text-sm text-slate-300">
+              <span>Released: {report.date}</span>
+              <a href={report.link} className="text-green-400 hover:text-green-300 transition-colors">
+                Read Full Report →
+              </a>
+            </div>
           </Card>
         ))}
       </div>

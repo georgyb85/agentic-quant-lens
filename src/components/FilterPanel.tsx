@@ -1,7 +1,12 @@
+
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { X, Calendar as CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 import TickerSearch from "./TickerSearch";
 
 interface FilterPanelProps {
@@ -57,6 +62,25 @@ const FilterPanel = ({
     onTickerSearchChange(syntheticEvent);
   };
 
+  const dateFromDate = dateFromFilter ? new Date(dateFromFilter) : undefined;
+  const dateToDate = dateToFilter ? new Date(dateToFilter) : undefined;
+
+  const handleDateFromSelect = (date: Date | undefined) => {
+    if (date) {
+      onDateFromChange(format(date, "yyyy-MM-dd"));
+    } else {
+      onDateFromChange("");
+    }
+  };
+
+  const handleDateToSelect = (date: Date | undefined) => {
+    if (date) {
+      onDateToChange(format(date, "yyyy-MM-dd"));
+    } else {
+      onDateToChange("");
+    }
+  };
+
   return (
     <div className="bg-slate-800/40 backdrop-blur-sm border border-slate-700/50 rounded-lg p-6 space-y-6">
       <div className="flex items-center justify-between">
@@ -108,21 +132,55 @@ const FilterPanel = ({
         <div className="flex gap-4 items-center">
           <div className="space-y-1">
             <label className="text-sm text-slate-400">From:</label>
-            <Input
-              type="date"
-              value={dateFromFilter}
-              onChange={(e) => onDateFromChange(e.target.value)}
-              className="w-40 bg-slate-700/50 border-slate-600/50 text-slate-100"
-            />
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "w-40 justify-start text-left font-normal bg-slate-700/50 border-slate-600/50 text-slate-100 hover:bg-slate-600/50",
+                    !dateFromDate && "text-slate-400"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4 text-slate-400" />
+                  {dateFromDate ? format(dateFromDate, "MM/dd/yyyy") : <span className="text-slate-400">mm/dd/yyyy</span>}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={dateFromDate}
+                  onSelect={handleDateFromSelect}
+                  initialFocus
+                  className={cn("p-3 pointer-events-auto")}
+                />
+              </PopoverContent>
+            </Popover>
           </div>
           <div className="space-y-1">
             <label className="text-sm text-slate-400">To:</label>
-            <Input
-              type="date"
-              value={dateToFilter}
-              onChange={(e) => onDateToChange(e.target.value)}
-              className="w-40 bg-slate-700/50 border-slate-600/50 text-slate-100"
-            />
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "w-40 justify-start text-left font-normal bg-slate-700/50 border-slate-600/50 text-slate-100 hover:bg-slate-600/50",
+                    !dateToDate && "text-slate-400"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4 text-slate-400" />
+                  {dateToDate ? format(dateToDate, "MM/dd/yyyy") : <span className="text-slate-400">mm/dd/yyyy</span>}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={dateToDate}
+                  onSelect={handleDateToSelect}
+                  initialFocus
+                  className={cn("p-3 pointer-events-auto")}
+                />
+              </PopoverContent>
+            </Popover>
           </div>
         </div>
       </div>

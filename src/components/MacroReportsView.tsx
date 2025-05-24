@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Calendar, TrendingUp, TrendingDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar as CalendarIcon, TrendingUp, TrendingDown } from "lucide-react";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
 interface MacroReport {
   id: string;
@@ -17,8 +21,8 @@ interface MacroReport {
 }
 
 const MacroReportsView = () => {
-  const [dateFromFilter, setDateFromFilter] = useState("");
-  const [dateToFilter, setDateToFilter] = useState("");
+  const [dateFrom, setDateFrom] = useState<Date>();
+  const [dateTo, setDateTo] = useState<Date>();
   const [reports, setReports] = useState<MacroReport[]>([]);
 
   useEffect(() => {
@@ -85,8 +89,9 @@ const MacroReportsView = () => {
   }, []);
 
   const filteredReports = reports.filter(report => {
-    const dateFromMatch = !dateFromFilter || report.date >= dateFromFilter;
-    const dateToMatch = !dateToFilter || report.date <= dateToFilter;
+    const reportDate = new Date(report.date);
+    const dateFromMatch = !dateFrom || reportDate >= dateFrom;
+    const dateToMatch = !dateTo || reportDate <= dateTo;
     return dateFromMatch && dateToMatch;
   });
 
@@ -113,27 +118,55 @@ const MacroReportsView = () => {
         <div className="flex gap-4 items-center">
           <div className="space-y-1">
             <label className="block text-sm font-medium text-gray-300">From:</label>
-            <div className="relative">
-              <Input
-                type="date"
-                value={dateFromFilter}
-                onChange={(e) => setDateFromFilter(e.target.value)}
-                className="w-40 bg-gray-800 border-gray-600 text-white pr-10"
-              />
-              <Calendar className="absolute right-3 top-3 h-4 w-4 text-gray-400" />
-            </div>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "w-40 justify-start text-left font-normal bg-gray-800 border-gray-600 text-white hover:bg-gray-700",
+                    !dateFrom && "text-gray-400"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4 text-gray-400" />
+                  {dateFrom ? format(dateFrom, "MM/dd/yyyy") : <span className="text-gray-400">mm/dd/yyyy</span>}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={dateFrom}
+                  onSelect={setDateFrom}
+                  initialFocus
+                  className={cn("p-3 pointer-events-auto")}
+                />
+              </PopoverContent>
+            </Popover>
           </div>
           <div className="space-y-1">
             <label className="block text-sm font-medium text-gray-300">To:</label>
-            <div className="relative">
-              <Input
-                type="date"
-                value={dateToFilter}
-                onChange={(e) => setDateToFilter(e.target.value)}
-                className="w-40 bg-gray-800 border-gray-600 text-white pr-10"
-              />
-              <Calendar className="absolute right-3 top-3 h-4 w-4 text-gray-400" />
-            </div>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "w-40 justify-start text-left font-normal bg-gray-800 border-gray-600 text-white hover:bg-gray-700",
+                    !dateTo && "text-gray-400"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4 text-gray-400" />
+                  {dateTo ? format(dateTo, "MM/dd/yyyy") : <span className="text-gray-400">mm/dd/yyyy</span>}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={dateTo}
+                  onSelect={setDateTo}
+                  initialFocus
+                  className={cn("p-3 pointer-events-auto")}
+                />
+              </PopoverContent>
+            </Popover>
           </div>
         </div>
       </div>

@@ -47,9 +47,9 @@ const FilterPanel = ({
   };
 
   return (
-    <div className="bg-slate-800/40 backdrop-blur-sm border border-slate-700/50 rounded-lg p-6 space-y-6">
+    <div className="bg-slate-900/70 backdrop-blur-sm border border-slate-800/60 rounded-lg p-6 space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold text-slate-100">News Filters</h2>
+        <h2 className="text-xl font-semibold text-slate-50">News Filters</h2>
         <Button
           variant="outline"
           size="sm"

@@ -38,7 +38,7 @@ const TickersSection = ({
 
   return (
     <div className="space-y-3">
-      <h3 className="text-sm font-medium text-slate-300">Tickers</h3>
+      <h3 className="text-sm font-medium text-slate-200">Tickers</h3>
       <div className="flex flex-wrap gap-2 min-h-[32px]">
         {selectedTickers.map((ticker) => (
           <Badge

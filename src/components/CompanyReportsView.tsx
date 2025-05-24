@@ -151,12 +151,12 @@ const CompanyReportsView = () => {
   return (
     <div className="space-y-6">
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold text-slate-100">Company Reports</h2>
+        <h2 className="text-2xl font-bold text-slate-50">Company Reports</h2>
         
         {/* Filters */}
         <div className="flex items-center space-x-6">
           <div className="space-y-1">
-            <label className="text-sm font-medium text-slate-300">Company</label>
+            <label className="text-sm font-medium text-slate-200">Company</label>
             <div className="flex items-center gap-2">
               <TickerSearch
                 value={tickerSearch}
@@ -186,14 +186,14 @@ const CompanyReportsView = () => {
           </div>
           
           <div className="space-y-1">
-            <label className="text-sm font-medium text-slate-300">Report Type</label>
+            <label className="text-sm font-medium text-slate-200">Report Type</label>
             <Select value={selectedType} onValueChange={setSelectedType}>
-              <SelectTrigger className="w-32 bg-slate-800/50 border-slate-600/30 text-slate-100">
+              <SelectTrigger className="w-32 bg-slate-900/50 border-slate-700/50 text-slate-50">
                 <SelectValue placeholder="All Types" />
               </SelectTrigger>
-              <SelectContent className="bg-slate-800/95 border-slate-600/30 backdrop-blur-sm">
+              <SelectContent className="bg-slate-900/95 border-slate-700/50 backdrop-blur-sm">
                 {reportTypes.map((type) => (
-                  <SelectItem key={type} value={type} className="text-slate-100 hover:bg-slate-700/50 focus:bg-slate-700/50">
+                  <SelectItem key={type} value={type} className="text-slate-50 hover:bg-slate-800/50 focus:bg-slate-800/50">
                     {type === "all" ? "All Types" : type}
                   </SelectItem>
                 ))}
@@ -202,14 +202,14 @@ const CompanyReportsView = () => {
           </div>
           
           <div className="space-y-1">
-            <label className="text-sm font-medium text-slate-300">Year</label>
+            <label className="text-sm font-medium text-slate-200">Year</label>
             <Select value={selectedYear} onValueChange={setSelectedYear}>
-              <SelectTrigger className="w-32 bg-slate-800/50 border-slate-600/30 text-slate-100">
+              <SelectTrigger className="w-32 bg-slate-900/50 border-slate-700/50 text-slate-50">
                 <SelectValue placeholder="All Years" />
               </SelectTrigger>
-              <SelectContent className="bg-slate-800/95 border-slate-600/30 backdrop-blur-sm">
+              <SelectContent className="bg-slate-900/95 border-slate-700/50 backdrop-blur-sm">
                 {years.map((year) => (
-                  <SelectItem key={year} value={year} className="text-slate-100 hover:bg-slate-700/50 focus:bg-slate-700/50">
+                  <SelectItem key={year} value={year} className="text-slate-50 hover:bg-slate-800/50 focus:bg-slate-800/50">
                     {year === "all" ? "All Years" : year}
                   </SelectItem>
                 ))}
@@ -222,7 +222,7 @@ const CompanyReportsView = () => {
       {/* Reports Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
         {filteredReports.map((report) => (
-          <Card key={report.id} className="bg-slate-800/40 border-slate-600/30 backdrop-blur-sm p-4 space-y-3 hover:bg-slate-700/40 transition-colors">
+          <Card key={report.id} className="bg-slate-900/60 border-slate-800/50 backdrop-blur-sm p-4 space-y-3 hover:bg-slate-900/80 transition-colors">
             {/* Header */}
             <div className="flex items-center justify-between">
               <span className="text-blue-400 font-semibold text-lg">{report.ticker}</span>
@@ -233,31 +233,31 @@ const CompanyReportsView = () => {
             
             {/* Company Info */}
             <div className="space-y-1">
-              <h3 className="text-slate-100 font-medium">{report.company}</h3>
-              <p className="text-slate-100 font-semibold">{report.title}</p>
-              <p className="text-slate-400 text-sm">Released: {report.date}</p>
+              <h3 className="text-slate-50 font-medium">{report.company}</h3>
+              <p className="text-slate-50 font-semibold">{report.title}</p>
+              <p className="text-slate-300 text-sm">Released: {report.date}</p>
             </div>
             
             {/* Metrics */}
             <div className="space-y-2">
               <div className="grid grid-cols-3 gap-2 text-xs">
                 <div>
-                  <span className="text-slate-400 block">Revenue</span>
-                  <span className="text-slate-100 font-semibold">{report.keyMetrics.revenue}</span>
+                  <span className="text-slate-300 block">Revenue</span>
+                  <span className="text-slate-50 font-semibold">{report.keyMetrics.revenue}</span>
                 </div>
                 <div>
-                  <span className="text-slate-400 block">EPS</span>
-                  <span className="text-slate-100 font-semibold">{report.keyMetrics.eps}</span>
+                  <span className="text-slate-300 block">EPS</span>
+                  <span className="text-slate-50 font-semibold">{report.keyMetrics.eps}</span>
                 </div>
                 <div>
-                  <span className="text-slate-400 block">Net Income</span>
-                  <span className="text-slate-100 font-semibold">{report.keyMetrics.netIncome}</span>
+                  <span className="text-slate-300 block">Net Income</span>
+                  <span className="text-slate-50 font-semibold">{report.keyMetrics.netIncome}</span>
                 </div>
               </div>
             </div>
             
             {/* Summary */}
-            <p className="text-slate-300 text-xs leading-relaxed line-clamp-4">{report.summary}</p>
+            <p className="text-slate-200 text-xs leading-relaxed line-clamp-4">{report.summary}</p>
             
             {/* Action Button */}
             <Button 
@@ -273,7 +273,7 @@ const CompanyReportsView = () => {
 
       {filteredReports.length === 0 && (
         <div className="text-center py-12">
-          <p className="text-slate-400">No reports found for the selected filters.</p>
+          <p className="text-slate-300">No reports found for the selected filters.</p>
         </div>
       )}
     </div>

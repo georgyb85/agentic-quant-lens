@@ -114,21 +114,21 @@ const MacroReportsView = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Macro Economic Reports</h2>
+        <h2 className="text-2xl font-bold text-slate-50">Macro Economic Reports</h2>
         <div className="flex gap-4 items-center">
           <div className="space-y-1">
-            <label className="block text-sm font-medium text-gray-300">From:</label>
+            <label className="block text-sm font-medium text-slate-200">From:</label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
                   className={cn(
-                    "w-40 justify-start text-left font-normal bg-gray-800 border-gray-600 text-white hover:bg-gray-700",
-                    !dateFrom && "text-gray-400"
+                    "w-40 justify-start text-left font-normal bg-slate-900 border-slate-700 text-slate-50 hover:bg-slate-800",
+                    !dateFrom && "text-slate-400"
                   )}
                 >
-                  <CalendarIcon className="mr-2 h-4 w-4 text-gray-400" />
-                  {dateFrom ? format(dateFrom, "MM/dd/yyyy") : <span className="text-gray-400">mm/dd/yyyy</span>}
+                  <CalendarIcon className="mr-2 h-4 w-4 text-slate-300" />
+                  {dateFrom ? format(dateFrom, "MM/dd/yyyy") : <span className="text-slate-400">mm/dd/yyyy</span>}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
@@ -143,18 +143,18 @@ const MacroReportsView = () => {
             </Popover>
           </div>
           <div className="space-y-1">
-            <label className="block text-sm font-medium text-gray-300">To:</label>
+            <label className="block text-sm font-medium text-slate-200">To:</label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
                   className={cn(
-                    "w-40 justify-start text-left font-normal bg-gray-800 border-gray-600 text-white hover:bg-gray-700",
-                    !dateTo && "text-gray-400"
+                    "w-40 justify-start text-left font-normal bg-slate-900 border-slate-700 text-slate-50 hover:bg-slate-800",
+                    !dateTo && "text-slate-400"
                   )}
                 >
-                  <CalendarIcon className="mr-2 h-4 w-4 text-gray-400" />
-                  {dateTo ? format(dateTo, "MM/dd/yyyy") : <span className="text-gray-400">mm/dd/yyyy</span>}
+                  <CalendarIcon className="mr-2 h-4 w-4 text-slate-300" />
+                  {dateTo ? format(dateTo, "MM/dd/yyyy") : <span className="text-slate-400">mm/dd/yyyy</span>}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
@@ -173,7 +173,7 @@ const MacroReportsView = () => {
 
       <div className="space-y-4">
         {filteredReports.map((report) => (
-          <Card key={report.id} className="bg-gray-800 border-gray-700 p-6 hover:bg-gray-750 transition-colors">
+          <Card key={report.id} className="bg-slate-900/80 border-slate-800/60 p-6 hover:bg-slate-900/90 transition-colors">
             <div className="flex items-start justify-between mb-4">
               <div>
                 <div className="flex items-center space-x-3 mb-2">
@@ -184,9 +184,9 @@ const MacroReportsView = () => {
                     {getSentimentIcon(report.sentiment)}
                     <span>{report.sentiment}</span>
                   </Badge>
-                  <span className="text-sm text-gray-400">{report.date}</span>
+                  <span className="text-sm text-slate-300">{report.date}</span>
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2">
+                <h3 className="text-lg font-semibold text-slate-50 mb-2">
                   <a href={report.link} className="hover:text-green-400 transition-colors">
                     {report.title}
                   </a>
@@ -194,17 +194,17 @@ const MacroReportsView = () => {
               </div>
             </div>
 
-            <p className="text-gray-300 leading-relaxed mb-4">{report.summary}</p>
+            <p className="text-slate-200 leading-relaxed mb-4">{report.summary}</p>
 
             <div className="flex flex-wrap gap-2 mb-3">
               {report.keyIndicators.map((indicator, index) => (
-                <Badge key={index} variant="secondary" className="bg-gray-700 text-gray-300">
+                <Badge key={index} variant="secondary" className="bg-slate-800 text-slate-200">
                   {indicator}
                 </Badge>
               ))}
             </div>
 
-            <div className="flex justify-between items-center text-sm text-gray-400">
+            <div className="flex justify-between items-center text-sm text-slate-300">
               <span>Source: {report.source}</span>
               <a href={report.link} className="text-green-400 hover:text-green-300 transition-colors">
                 Read Full Report →
@@ -216,7 +216,7 @@ const MacroReportsView = () => {
 
       {filteredReports.length === 0 && (
         <div className="text-center py-8">
-          <p className="text-gray-400">No macro reports found for the selected date.</p>
+          <p className="text-slate-300">No macro reports found for the selected date.</p>
         </div>
       )}
     </div>

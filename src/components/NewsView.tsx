@@ -127,7 +127,7 @@ const NewsView = () => {
   const handleTickerSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setTickerSearch(value);
-    setShowTickerDropdown(value.length > 0);
+    setShowTickerDropdown(value.length > 0 && filteredTickerSuggestions.length > 0);
   };
 
   const handleTickerSearchKeyPress = (e: React.KeyboardEvent) => {
@@ -183,8 +183,11 @@ const NewsView = () => {
               value={tickerSearch}
               onChange={handleTickerSearchChange}
               onKeyPress={handleTickerSearchKeyPress}
-              onFocus={() => setShowTickerDropdown(tickerSearch.length > 0)}
-              onBlur={() => setTimeout(() => setShowTickerDropdown(false), 200)}
+              onFocus={() => {
+                if (tickerSearch.length > 0 && filteredTickerSuggestions.length > 0) {
+                  setShowTickerDropdown(true);
+                }
+              }}
               className="w-48 bg-slate-700/50 border-slate-600/50 text-slate-100 placeholder:text-slate-400"
             />
             
@@ -195,7 +198,7 @@ const NewsView = () => {
                   <div
                     key={ticker}
                     className="px-3 py-2 text-slate-100 hover:bg-slate-700 cursor-pointer text-sm"
-                    onClick={() => addTicker(ticker)}
+                    onMouseDown={() => addTicker(ticker)}
                   >
                     {ticker}
                   </div>
@@ -252,9 +255,9 @@ const NewsView = () => {
                   <Badge variant="outline" className="border-purple-500/50 text-purple-300 bg-purple-500/10">
                     {item.ticker}
                   </Badge>
-                  <Badge className={getSentimentColor(item.sentiment)}>
+                  <div className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold ${getSentimentColor(item.sentiment)}`}>
                     {item.sentiment}
-                  </Badge>
+                  </div>
                   <span className="text-sm text-slate-400">{item.date}</span>
                 </div>
                 <h3 className="text-lg font-semibold text-slate-100 mb-2">

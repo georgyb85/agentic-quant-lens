@@ -29,8 +29,8 @@ const Index = () => {
     <SidebarProvider>
       <div className="min-h-screen bg-gradient-to-br from-slate-950 via-gray-950 to-slate-900 text-slate-50 flex w-full">
         <AppSidebar activeView={activeView} setActiveView={setActiveView} />
-        <main className="flex-1 p-6">
-          <header className="mb-6">
+        <main className="flex-1 flex flex-col">
+          <header className="sticky top-0 z-10 bg-gradient-to-br from-slate-950 via-gray-950 to-slate-900 p-6 border-b border-slate-700/30 backdrop-blur-sm">
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-3xl font-bold bg-gradient-to-r from-slate-50 via-blue-100 to-slate-100 bg-clip-text text-transparent">
@@ -43,7 +43,9 @@ const Index = () => {
               </div>
             </div>
           </header>
-          {renderActiveView()}
+          <div className="flex-1 p-6">
+            {renderActiveView()}
+          </div>
         </main>
       </div>
     </SidebarProvider>

@@ -1,4 +1,3 @@
-
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -79,7 +78,7 @@ const FilterPanel = ({
           {selectedTickers.map((ticker) => (
             <Badge
               key={ticker}
-              className="bg-blue-600 text-white hover:bg-blue-700 px-3 py-1 flex items-center gap-2"
+              className="bg-blue-600 text-white hover:bg-blue-600 px-3 py-1 flex items-center gap-2"
             >
               <span>{getTickerDisplayName(ticker)}</span>
               <X 

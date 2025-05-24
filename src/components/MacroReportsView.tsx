@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -91,9 +90,9 @@ const MacroReportsView = () => {
 
   const getSentimentColor = (sentiment: string) => {
     switch (sentiment) {
-      case 'positive': return 'bg-green-600';
-      case 'negative': return 'bg-red-600';
-      default: return 'bg-gray-600';
+      case 'positive': return 'bg-green-600 text-white hover:bg-green-600';
+      case 'negative': return 'bg-red-600 text-white hover:bg-red-600';
+      default: return 'bg-gray-600 text-white hover:bg-gray-600';
     }
   };
 

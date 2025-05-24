@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
@@ -135,8 +134,8 @@ const CompanyReportsView = () => {
   });
 
   const getReportTypeBadgeColor = (type: string) => {
-    if (type.startsWith('Q')) return "bg-emerald-500 text-white";
-    return "bg-orange-500 text-white";
+    if (type.startsWith('Q')) return "bg-emerald-600 text-white hover:bg-emerald-600";
+    return "bg-orange-600 text-white hover:bg-orange-600";
   };
 
   const handleTickerSelect = (ticker: string) => {

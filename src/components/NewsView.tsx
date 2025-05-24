@@ -4,7 +4,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Calendar } from "lucide-react";
+import { Calendar, ExternalLink } from "lucide-react";
 
 interface NewsItem {
   id: string;
@@ -33,7 +33,7 @@ const NewsView = () => {
         sentiment: "positive",
         ticker: "TSLA",
         date: "2025-05-24",
-        link: "#"
+        link: "https://example.com/tesla-earnings"
       },
       {
         id: "2",
@@ -42,7 +42,7 @@ const NewsView = () => {
         sentiment: "negative",
         ticker: "AMZN",
         date: "2025-05-23",
-        link: "#"
+        link: "https://example.com/aws-competition"
       },
       {
         id: "3",
@@ -51,7 +51,7 @@ const NewsView = () => {
         sentiment: "positive",
         ticker: "GOOG",
         date: "2025-05-22",
-        link: "#"
+        link: "https://example.com/google-quantum"
       },
       {
         id: "4",
@@ -60,7 +60,7 @@ const NewsView = () => {
         sentiment: "positive",
         ticker: "BTC",
         date: "2025-05-21",
-        link: "#"
+        link: "https://example.com/bitcoin-etf"
       },
       {
         id: "5",
@@ -69,7 +69,7 @@ const NewsView = () => {
         sentiment: "positive",
         ticker: "ETH",
         date: "2025-05-20",
-        link: "#"
+        link: "https://example.com/ethereum-upgrade"
       }
     ];
 
@@ -84,26 +84,28 @@ const NewsView = () => {
 
   const getSentimentColor = (sentiment: string) => {
     switch (sentiment) {
-      case 'positive': return 'bg-green-600';
-      case 'negative': return 'bg-red-600';
-      default: return 'bg-gray-600';
+      case 'positive': return 'bg-green-600/90 text-green-100';
+      case 'negative': return 'bg-red-600/90 text-red-100';
+      default: return 'bg-slate-600/90 text-slate-100';
     }
   };
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Market News</h2>
+        <h2 className="text-2xl font-bold bg-gradient-to-r from-slate-100 via-purple-100 to-slate-200 bg-clip-text text-transparent">
+          Market News
+        </h2>
         <div className="flex space-x-4">
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">Filter by Ticker</label>
+            <label className="block text-sm font-medium text-slate-300 mb-1">Filter by Ticker</label>
             <Select value={selectedTicker} onValueChange={setSelectedTicker}>
-              <SelectTrigger className="w-32 bg-gray-800 border-gray-600">
+              <SelectTrigger className="w-32 bg-slate-800/90 border-slate-600/50 text-slate-100 hover:bg-slate-700/90">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-gray-800 border-gray-600">
+              <SelectContent className="bg-slate-800 border-slate-600/50">
                 {tickers.map((ticker) => (
-                  <SelectItem key={ticker} value={ticker} className="text-white hover:bg-gray-700">
+                  <SelectItem key={ticker} value={ticker} className="text-slate-100 hover:bg-slate-700 focus:bg-slate-700">
                     {ticker.toUpperCase()}
                   </SelectItem>
                 ))}
@@ -111,15 +113,15 @@ const NewsView = () => {
             </Select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">Filter by Date</label>
+            <label className="block text-sm font-medium text-slate-300 mb-1">Filter by Date</label>
             <div className="relative">
               <Input
                 type="date"
                 value={dateFilter}
                 onChange={(e) => setDateFilter(e.target.value)}
-                className="w-40 bg-gray-800 border-gray-600 text-white"
+                className="w-40 bg-slate-800/90 border-slate-600/50 text-slate-100 hover:bg-slate-700/90"
               />
-              <Calendar className="absolute right-3 top-3 h-4 w-4 text-gray-400" />
+              <Calendar className="absolute right-3 top-3 h-4 w-4 text-slate-400" />
             </div>
           </div>
         </div>
@@ -127,24 +129,31 @@ const NewsView = () => {
 
       <div className="space-y-4">
         {filteredNews.map((item) => (
-          <Card key={item.id} className="bg-gray-800 border-gray-700 p-6 hover:bg-gray-750 transition-colors">
+          <Card key={item.id} className="bg-slate-800/70 border-slate-700/50 p-6 hover:bg-slate-800/90 transition-colors backdrop-blur-sm">
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <div className="flex items-center space-x-3 mb-2">
-                  <Badge variant="outline" className="border-green-600 text-green-400">
+                  <Badge variant="outline" className="border-purple-500/50 text-purple-300 bg-purple-500/10">
                     {item.ticker}
                   </Badge>
                   <Badge className={getSentimentColor(item.sentiment)}>
                     {item.sentiment}
                   </Badge>
-                  <span className="text-sm text-gray-400">{item.date}</span>
+                  <span className="text-sm text-slate-400">{item.date}</span>
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2">
-                  <a href={item.link} className="hover:text-green-400 transition-colors">
-                    {item.title}
-                  </a>
+                <h3 className="text-lg font-semibold text-slate-100 mb-2">
+                  {item.title}
                 </h3>
-                <p className="text-gray-300 leading-relaxed">{item.summary}</p>
+                <p className="text-slate-300 leading-relaxed mb-3">{item.summary}</p>
+                <a 
+                  href={item.link} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center space-x-2 text-purple-300 hover:text-purple-200 transition-colors text-sm"
+                >
+                  <span>Read full article</span>
+                  <ExternalLink size={14} />
+                </a>
               </div>
             </div>
           </Card>
@@ -153,7 +162,7 @@ const NewsView = () => {
 
       {filteredNews.length === 0 && (
         <div className="text-center py-8">
-          <p className="text-gray-400">No news found for the selected filters.</p>
+          <p className="text-slate-400">No news found for the selected filters.</p>
         </div>
       )}
     </div>

@@ -47,9 +47,9 @@ const AppSidebar = ({ activeView, setActiveView }: SidebarProps) => {
                       onClick={() => setActiveView(item.id)}
                       isActive={activeView === item.id}
                       tooltip={item.label}
-                      className={`text-slate-300 hover:text-white hover:bg-slate-700/50 data-[active=true]:bg-gradient-to-r data-[active=true]:from-blue-600/20 data-[active=true]:to-indigo-600/20 data-[active=true]:text-blue-200 data-[active=true]:border data-[active=true]:border-blue-500/30 ${
+                      className={`text-slate-300 hover:text-white hover:bg-slate-700/50 data-[active=true]:bg-blue-600/30 data-[active=true]:text-white data-[active=true]:border data-[active=true]:border-blue-400/50 ${
                         activeView === item.id
-                          ? "bg-gradient-to-r from-blue-600/20 to-indigo-600/20 text-blue-200 border border-blue-500/30"
+                          ? "bg-blue-600/30 text-white border border-blue-400/50"
                           : ""
                       }`}
                     >

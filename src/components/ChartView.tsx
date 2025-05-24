@@ -47,7 +47,7 @@ const ChartView = () => {
                   variant="outline"
                   size="sm"
                   onClick={clearTickerSelection}
-                  className="text-xs px-2 py-1 h-8"
+                  className="text-xs px-2 py-1 h-8 bg-slate-700 border-slate-600 text-slate-200 hover:bg-slate-600 hover:text-white"
                 >
                   Clear
                 </Button>

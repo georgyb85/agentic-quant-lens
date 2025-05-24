@@ -1,5 +1,5 @@
 
-import { BarChart3, News, FileText, TrendingUp } from "lucide-react";
+import { BarChart3, Newspaper, FileText, TrendingUp } from "lucide-react";
 
 interface SidebarProps {
   activeView: string;
@@ -9,7 +9,7 @@ interface SidebarProps {
 const Sidebar = ({ activeView, setActiveView }: SidebarProps) => {
   const menuItems = [
     { id: "chart", label: "Chart View", icon: BarChart3 },
-    { id: "news", label: "News", icon: News },
+    { id: "news", label: "News", icon: Newspaper },
     { id: "company-reports", label: "Company Reports", icon: FileText },
     { id: "macro-reports", label: "Macro Reports", icon: TrendingUp },
   ];

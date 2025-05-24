@@ -98,7 +98,7 @@ const FilterPanel = ({
       {/* Tickers Section */}
       <div className="space-y-3">
         <h3 className="text-sm font-medium text-slate-300">Tickers</h3>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 min-h-[32px]">
           {selectedTickers.map((ticker) => (
             <Badge
               key={ticker}
@@ -114,8 +114,7 @@ const FilterPanel = ({
           ))}
         </div>
         
-        {/* Add Ticker Search with Dropdown */}
-        <div className="mt-3">
+        <div className="w-full max-w-md">
           <TickerSearch
             value={tickerSearch}
             onChange={handleTickerSearchChange}
@@ -129,15 +128,15 @@ const FilterPanel = ({
       {/* Date Range Section */}
       <div className="space-y-3">
         <h3 className="text-sm font-medium text-slate-300">Date Range</h3>
-        <div className="flex gap-4 items-center">
-          <div className="space-y-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-2">
             <label className="text-sm text-slate-400">From:</label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
                   className={cn(
-                    "w-40 justify-start text-left font-normal bg-slate-700/50 border-slate-600/50 text-slate-100 hover:bg-slate-600/50",
+                    "w-full justify-start text-left font-normal bg-slate-700/50 border-slate-600/50 text-slate-100 hover:bg-slate-600/50",
                     !dateFromDate && "text-slate-400"
                   )}
                 >
@@ -156,14 +155,14 @@ const FilterPanel = ({
               </PopoverContent>
             </Popover>
           </div>
-          <div className="space-y-1">
+          <div className="space-y-2">
             <label className="text-sm text-slate-400">To:</label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
                   className={cn(
-                    "w-40 justify-start text-left font-normal bg-slate-700/50 border-slate-600/50 text-slate-100 hover:bg-slate-600/50",
+                    "w-full justify-start text-left font-normal bg-slate-700/50 border-slate-600/50 text-slate-100 hover:bg-slate-600/50",
                     !dateToDate && "text-slate-400"
                   )}
                 >

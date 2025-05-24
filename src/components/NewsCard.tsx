@@ -10,9 +10,9 @@ interface NewsCardProps {
 
 const getSentimentColor = (sentiment: string) => {
   switch (sentiment) {
-    case 'positive': return 'bg-green-600/90 text-green-100';
-    case 'negative': return 'bg-red-600/90 text-red-100';
-    default: return 'bg-slate-600/90 text-slate-100';
+    case 'positive': return 'bg-green-600/90 text-green-100 border-green-800/50';
+    case 'negative': return 'bg-red-600/90 text-red-100 border-red-800/50';
+    default: return 'bg-slate-600/90 text-slate-100 border-slate-800/50';
   }
 };
 

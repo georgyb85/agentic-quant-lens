@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
+import TickerSearch from "./TickerSearch";
 
 interface FilterPanelProps {
   selectedTickers: string[];
@@ -40,18 +41,23 @@ const FilterPanel = ({
   dateToFilter,
   keywordSearch,
   tickerSearch,
-  showTickerDropdown,
-  filteredTickerSuggestions,
   onRemoveTicker,
   onAddTicker,
   onClearAllFilters,
   onDateFromChange,
   onDateToChange,
   onKeywordSearchChange,
-  onTickerSearchChange,
-  onTickerSearchKeyPress,
-  onTickerSearchFocus
+  onTickerSearchChange
 }: FilterPanelProps) => {
+  const availableTickers = ["TSLA", "AMZN", "GOOG", "BTC", "ETH", "AAPL", "MSFT", "NVDA", "META", "NFLX"];
+
+  const handleTickerSearchChange = (value: string) => {
+    const syntheticEvent = {
+      target: { value }
+    } as React.ChangeEvent<HTMLInputElement>;
+    onTickerSearchChange(syntheticEvent);
+  };
+
   return (
     <div className="bg-slate-800/40 backdrop-blur-sm border border-slate-700/50 rounded-lg p-6 space-y-6">
       <div className="flex items-center justify-between">
@@ -60,7 +66,7 @@ const FilterPanel = ({
           variant="outline"
           size="sm"
           onClick={onClearAllFilters}
-          className="border-red-800/50 text-red-300 hover:bg-red-800/10 bg-transparent"
+          className="border-red-600/50 text-red-400 hover:bg-red-900/20 bg-transparent hover:text-red-300"
         >
           Clear All Filters
         </Button>
@@ -86,30 +92,14 @@ const FilterPanel = ({
         </div>
         
         {/* Add Ticker Search with Dropdown */}
-        <div className="relative mt-3">
-          <Input
-            placeholder="Search ticker to add..."
+        <div className="mt-3">
+          <TickerSearch
             value={tickerSearch}
-            onChange={onTickerSearchChange}
-            onKeyPress={onTickerSearchKeyPress}
-            onFocus={onTickerSearchFocus}
-            className="w-48 bg-slate-700/50 border-slate-600/50 text-slate-100 placeholder:text-slate-400"
+            onChange={handleTickerSearchChange}
+            onSelect={onAddTicker}
+            availableTickers={availableTickers}
+            selectedTickers={selectedTickers}
           />
-          
-          {/* Dropdown Menu */}
-          {showTickerDropdown && filteredTickerSuggestions.length > 0 && (
-            <div className="absolute top-full left-0 w-48 mt-1 bg-slate-800 border border-slate-600/50 rounded-md shadow-lg z-50">
-              {filteredTickerSuggestions.map((ticker) => (
-                <div
-                  key={ticker}
-                  className="px-3 py-2 text-slate-100 hover:bg-slate-700 cursor-pointer text-sm"
-                  onMouseDown={() => onAddTicker(ticker)}
-                >
-                  {ticker}
-                </div>
-              ))}
-            </div>
-          )}
         </div>
       </div>
 

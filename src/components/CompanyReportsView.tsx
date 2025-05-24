@@ -4,6 +4,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import TickerSearch from "./TickerSearch";
 
 interface CompanyReport {
   id: string;
@@ -28,9 +29,10 @@ const CompanyReportsView = () => {
   const [selectedTicker, setSelectedTicker] = useState("all");
   const [selectedType, setSelectedType] = useState("all");
   const [selectedYear, setSelectedYear] = useState("all");
+  const [tickerSearch, setTickerSearch] = useState("");
   const [reports, setReports] = useState<CompanyReport[]>([]);
 
-  const tickers = ["all", "AMZN", "GOOG", "TSLA"];
+  const availableTickers = ["AMZN", "GOOG", "TSLA"];
   const reportTypes = ["all", "Q1", "Q2", "Q3", "Q4", "Annual"];
   const years = ["all", "2024", "2025"];
 
@@ -137,6 +139,11 @@ const CompanyReportsView = () => {
     return "bg-orange-500 text-white";
   };
 
+  const handleTickerSelect = (ticker: string) => {
+    setSelectedTicker(ticker);
+    setTickerSearch("");
+  };
+
   return (
     <div className="space-y-6">
       <div className="space-y-4">
@@ -146,18 +153,15 @@ const CompanyReportsView = () => {
         <div className="flex items-center space-x-6">
           <div className="space-y-1">
             <label className="text-sm font-medium text-slate-300">Company</label>
-            <Select value={selectedTicker} onValueChange={setSelectedTicker}>
-              <SelectTrigger className="w-40 bg-slate-800/50 border-slate-600/30 text-slate-100">
-                <SelectValue placeholder="All Companies" />
-              </SelectTrigger>
-              <SelectContent className="bg-slate-800/95 border-slate-600/30 backdrop-blur-sm">
-                {tickers.map((ticker) => (
-                  <SelectItem key={ticker} value={ticker} className="text-slate-100 hover:bg-slate-700/50 focus:bg-slate-700/50">
-                    {ticker === "all" ? "All Companies" : ticker}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <TickerSearch
+              value={tickerSearch}
+              onChange={setTickerSearch}
+              onSelect={handleTickerSelect}
+              availableTickers={availableTickers}
+              selectedTickers={selectedTicker === "all" ? [] : [selectedTicker]}
+              placeholder="Search company..."
+              className="w-40"
+            />
           </div>
           
           <div className="space-y-1">

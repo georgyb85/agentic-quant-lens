@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, X, Plus } from "lucide-react";
+import { ExternalLink, X } from "lucide-react";
 
 interface NewsItem {
   id: string;
@@ -22,6 +22,7 @@ const NewsView = () => {
   const [dateToFilter, setDateToFilter] = useState("");
   const [keywordSearch, setKeywordSearch] = useState("");
   const [tickerSearch, setTickerSearch] = useState("");
+  const [showTickerDropdown, setShowTickerDropdown] = useState(false);
   const [news, setNews] = useState<NewsItem[]>([]);
 
   const availableTickers = ["TSLA", "AMZN", "GOOG", "BTC", "ETH", "AAPL", "MSFT", "NVDA", "META", "NFLX"];
@@ -101,13 +102,13 @@ const NewsView = () => {
     setSelectedTickers(prev => prev.filter(ticker => ticker !== tickerToRemove));
   };
 
-  const addTicker = () => {
-    const upperTickerSearch = tickerSearch.toUpperCase();
-    if (upperTickerSearch && 
-        availableTickers.includes(upperTickerSearch) && 
-        !selectedTickers.includes(upperTickerSearch)) {
-      setSelectedTickers(prev => [...prev, upperTickerSearch]);
+  const addTicker = (ticker: string) => {
+    if (ticker && 
+        availableTickers.includes(ticker) && 
+        !selectedTickers.includes(ticker)) {
+      setSelectedTickers(prev => [...prev, ticker]);
       setTickerSearch("");
+      setShowTickerDropdown(false);
     }
   };
 
@@ -118,9 +119,20 @@ const NewsView = () => {
     setKeywordSearch("");
   };
 
+  const filteredTickerSuggestions = availableTickers.filter(ticker => 
+    ticker.toLowerCase().includes(tickerSearch.toLowerCase()) &&
+    !selectedTickers.includes(ticker)
+  );
+
+  const handleTickerSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setTickerSearch(value);
+    setShowTickerDropdown(value.length > 0);
+  };
+
   const handleTickerSearchKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      addTicker();
+    if (e.key === 'Enter' && filteredTickerSuggestions.length > 0) {
+      addTicker(filteredTickerSuggestions[0]);
     }
   };
 
@@ -134,7 +146,7 @@ const NewsView = () => {
             variant="outline"
             size="sm"
             onClick={clearAllFilters}
-            className="border-red-500/50 text-red-400 hover:bg-red-500/10"
+            className="border-red-700/50 text-red-400 hover:bg-red-700/10 bg-transparent"
           >
             Clear All Filters
           </Button>
@@ -164,22 +176,32 @@ const NewsView = () => {
             ))}
           </div>
           
-          {/* Add Ticker Search */}
-          <div className="flex gap-2 mt-3">
+          {/* Add Ticker Search with Dropdown */}
+          <div className="relative mt-3">
             <Input
               placeholder="Search ticker to add..."
               value={tickerSearch}
-              onChange={(e) => setTickerSearch(e.target.value)}
+              onChange={handleTickerSearchChange}
               onKeyPress={handleTickerSearchKeyPress}
+              onFocus={() => setShowTickerDropdown(tickerSearch.length > 0)}
+              onBlur={() => setTimeout(() => setShowTickerDropdown(false), 200)}
               className="w-48 bg-slate-700/50 border-slate-600/50 text-slate-100 placeholder:text-slate-400"
             />
-            <Button
-              size="sm"
-              onClick={addTicker}
-              className="bg-blue-600 hover:bg-blue-700"
-            >
-              <Plus size={16} />
-            </Button>
+            
+            {/* Dropdown Menu */}
+            {showTickerDropdown && filteredTickerSuggestions.length > 0 && (
+              <div className="absolute top-full left-0 w-48 mt-1 bg-slate-800 border border-slate-600/50 rounded-md shadow-lg z-50">
+                {filteredTickerSuggestions.map((ticker) => (
+                  <div
+                    key={ticker}
+                    className="px-3 py-2 text-slate-100 hover:bg-slate-700 cursor-pointer text-sm"
+                    onClick={() => addTicker(ticker)}
+                  >
+                    {ticker}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 

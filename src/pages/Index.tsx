@@ -25,12 +25,14 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800 text-white flex">
       <Sidebar activeView={activeView} setActiveView={setActiveView} />
       <main className="flex-1 p-6">
         <header className="mb-6">
-          <h1 className="text-3xl font-bold text-blue-400">Agentic Research</h1>
-          <p className="text-gray-400 mt-2">Quantitative Trading Strategy Research Platform</p>
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-slate-200 via-blue-200 to-slate-300 bg-clip-text text-transparent">
+            Agentic Research
+          </h1>
+          <p className="text-slate-400 mt-2">Quantitative Trading Strategy Research Platform</p>
         </header>
         {renderActiveView()}
       </main>

@@ -15,7 +15,7 @@ const Sidebar = ({ activeView, setActiveView }: SidebarProps) => {
   ];
 
   return (
-    <div className="w-64 bg-gray-800 border-r border-gray-700 p-4">
+    <div className="w-64 bg-gradient-to-b from-slate-800 to-gray-800 border-r border-slate-700/50 backdrop-blur-sm p-4">
       <nav className="space-y-2">
         {menuItems.map((item) => {
           const Icon = item.icon;
@@ -23,10 +23,10 @@ const Sidebar = ({ activeView, setActiveView }: SidebarProps) => {
             <button
               key={item.id}
               onClick={() => setActiveView(item.id)}
-              className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+              className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 ${
                 activeView === item.id
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                  ? "bg-gradient-to-r from-blue-600/20 to-indigo-600/20 text-blue-200 border border-blue-500/30 shadow-lg shadow-blue-500/10"
+                  : "text-slate-300 hover:bg-gradient-to-r hover:from-slate-700/50 hover:to-gray-700/50 hover:text-white hover:border hover:border-slate-600/30"
               }`}
             >
               <Icon size={20} />

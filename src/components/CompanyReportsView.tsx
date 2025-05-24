@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
@@ -235,9 +234,6 @@ const CompanyReportsView = () => {
                   </Badge>
                   <span className="text-xs sm:text-sm text-slate-300">{report.date}</span>
                 </div>
-                <h3 className="text-base sm:text-lg font-semibold text-slate-50 mb-2">
-                  <span className="text-blue-400 font-semibold">{report.ticker}</span> - {report.title}
-                </h3>
               </div>
             </div>
 

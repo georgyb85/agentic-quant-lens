@@ -26,7 +26,7 @@ interface CompanyReport {
 }
 
 const CompanyReportsView = () => {
-  const [selectedTicker, setSelectedTicker] = useState("all");
+  const [selectedTicker, setSelectedTicker] = useState("");
   const [selectedType, setSelectedType] = useState("all");
   const [selectedYear, setSelectedYear] = useState("all");
   const [tickerSearch, setTickerSearch] = useState("");
@@ -128,7 +128,7 @@ const CompanyReportsView = () => {
   }, []);
 
   const filteredReports = reports.filter(report => {
-    const tickerMatch = selectedTicker === "all" || report.ticker === selectedTicker;
+    const tickerMatch = !selectedTicker || report.ticker === selectedTicker;
     const typeMatch = selectedType === "all" || report.reportType === selectedType;
     const yearMatch = selectedYear === "all" || report.year.toString() === selectedYear;
     return tickerMatch && typeMatch && yearMatch;
@@ -144,6 +144,11 @@ const CompanyReportsView = () => {
     setTickerSearch("");
   };
 
+  const clearTickerFilter = () => {
+    setSelectedTicker("");
+    setTickerSearch("");
+  };
+
   return (
     <div className="space-y-6">
       <div className="space-y-4">
@@ -153,15 +158,32 @@ const CompanyReportsView = () => {
         <div className="flex items-center space-x-6">
           <div className="space-y-1">
             <label className="text-sm font-medium text-slate-300">Company</label>
-            <TickerSearch
-              value={tickerSearch}
-              onChange={setTickerSearch}
-              onSelect={handleTickerSelect}
-              availableTickers={availableTickers}
-              selectedTickers={selectedTicker === "all" ? [] : [selectedTicker]}
-              placeholder="Search company..."
-              className="w-40"
-            />
+            <div className="flex items-center gap-2">
+              <TickerSearch
+                value={tickerSearch}
+                onChange={setTickerSearch}
+                onSelect={handleTickerSelect}
+                availableTickers={availableTickers}
+                selectedTickers={selectedTicker ? [selectedTicker] : []}
+                placeholder="Search company..."
+                className="w-40"
+              />
+              {selectedTicker && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={clearTickerFilter}
+                  className="text-xs px-2 py-1 h-8"
+                >
+                  Clear
+                </Button>
+              )}
+            </div>
+            {selectedTicker && (
+              <div className="text-xs text-blue-400">
+                Filtered by: {selectedTicker}
+              </div>
+            )}
           </div>
           
           <div className="space-y-1">

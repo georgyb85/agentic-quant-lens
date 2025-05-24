@@ -114,17 +114,17 @@ const MacroReportsView = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
         <h2 className="text-2xl font-bold text-slate-50">Macro Economic Reports</h2>
-        <div className="flex gap-4 items-center">
-          <div className="space-y-1">
+        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+          <div className="space-y-1 w-full sm:w-auto">
             <label className="block text-sm font-medium text-slate-200">From:</label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
                   className={cn(
-                    "w-40 justify-start text-left font-normal bg-slate-900 border-slate-700 text-slate-50 hover:bg-slate-800",
+                    "w-full sm:w-40 justify-start text-left font-normal bg-slate-900 border-slate-700 text-slate-50 hover:bg-slate-800",
                     !dateFrom && "text-slate-400"
                   )}
                 >
@@ -143,14 +143,14 @@ const MacroReportsView = () => {
               </PopoverContent>
             </Popover>
           </div>
-          <div className="space-y-1">
+          <div className="space-y-1 w-full sm:w-auto">
             <label className="block text-sm font-medium text-slate-200">To:</label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
                   className={cn(
-                    "w-40 justify-start text-left font-normal bg-slate-900 border-slate-700 text-slate-50 hover:bg-slate-800",
+                    "w-full sm:w-40 justify-start text-left font-normal bg-slate-900 border-slate-700 text-slate-50 hover:bg-slate-800",
                     !dateTo && "text-slate-400"
                   )}
                 >
@@ -174,20 +174,20 @@ const MacroReportsView = () => {
 
       <div className="space-y-4">
         {filteredReports.map((report) => (
-          <Card key={report.id} className="bg-slate-900/80 border-slate-800/60 p-6 hover:bg-slate-900/90 transition-colors">
+          <Card key={report.id} className="bg-slate-900/80 border-slate-800/60 p-3 sm:p-6 hover:bg-slate-900/90 transition-colors">
             <div className="flex items-start justify-between mb-4">
-              <div>
-                <div className="flex items-center space-x-3 mb-2">
-                  <Badge variant="outline" className="border-blue-600 text-blue-400">
+              <div className="flex-1 min-w-0">
+                <div className="flex flex-wrap items-center space-x-2 sm:space-x-3 mb-2 gap-y-2">
+                  <Badge variant="outline" className="border-blue-600 text-blue-400 flex-shrink-0">
                     {report.category}
                   </Badge>
-                  <Badge className={`${getSentimentColor(report.sentiment)} flex items-center space-x-1`}>
+                  <Badge className={`${getSentimentColor(report.sentiment)} flex items-center space-x-1 flex-shrink-0`}>
                     {getSentimentIcon(report.sentiment)}
                     <span>{report.sentiment}</span>
                   </Badge>
-                  <span className="text-sm text-slate-300">{report.date}</span>
+                  <span className="text-xs sm:text-sm text-slate-300">{report.date}</span>
                 </div>
-                <h3 className="text-lg font-semibold text-slate-50 mb-2">
+                <h3 className="text-base sm:text-lg font-semibold text-slate-50 mb-2">
                   <a href={report.link} className="hover:text-green-400 transition-colors">
                     {report.title}
                   </a>
@@ -195,17 +195,17 @@ const MacroReportsView = () => {
               </div>
             </div>
 
-            <p className="text-slate-200 leading-relaxed mb-4">{report.summary}</p>
+            <p className="text-slate-200 leading-relaxed mb-4 text-sm sm:text-base">{report.summary}</p>
 
             <div className="flex flex-wrap gap-2 mb-3">
               {report.keyIndicators.map((indicator, index) => (
-                <Badge key={index} variant="secondary" className="bg-slate-800 text-slate-200 hover:bg-slate-800 hover:text-slate-200 pointer-events-none">
+                <Badge key={index} variant="secondary" className="bg-slate-800 text-slate-200 hover:bg-slate-800 hover:text-slate-200 pointer-events-none text-xs">
                   {indicator}
                 </Badge>
               ))}
             </div>
 
-            <div className="flex justify-between items-center text-sm text-slate-300">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 text-xs sm:text-sm text-slate-300">
               <span>Source: {report.source}</span>
               <a href={report.link} className="text-green-400 hover:text-green-300 transition-colors">
                 Read Full Report →

@@ -219,12 +219,12 @@ const CompanyReportsView = () => {
         </div>
       </div>
 
-      {/* Reports Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+      {/* Reports Grid - Updated for mobile responsiveness */}
+      <div className="space-y-4">
         {filteredReports.map((report) => (
-          <Card key={report.id} className="bg-slate-900/60 border-slate-800/50 backdrop-blur-sm p-4 space-y-3 hover:bg-slate-900/80 transition-colors">
+          <Card key={report.id} className="bg-slate-900/60 border-slate-800/50 backdrop-blur-sm p-4 hover:bg-slate-900/80 transition-colors">
             {/* Header */}
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mb-3">
               <span className="text-blue-400 font-semibold text-lg">{report.ticker}</span>
               <Badge className={`${getReportTypeBadgeColor(report.reportType)} px-2 py-1 text-xs`}>
                 {report.reportType}
@@ -232,15 +232,15 @@ const CompanyReportsView = () => {
             </div>
             
             {/* Company Info */}
-            <div className="space-y-1">
+            <div className="space-y-1 mb-4">
               <h3 className="text-slate-50 font-medium">{report.company}</h3>
               <p className="text-slate-50 font-semibold">{report.title}</p>
               <p className="text-slate-300 text-sm">Released: {report.date}</p>
             </div>
             
             {/* Metrics */}
-            <div className="space-y-2">
-              <div className="grid grid-cols-3 gap-2 text-xs">
+            <div className="space-y-3 mb-4">
+              <div className="grid grid-cols-3 gap-4 text-sm">
                 <div>
                   <span className="text-slate-300 block">Revenue</span>
                   <span className="text-slate-50 font-semibold">{report.keyMetrics.revenue}</span>
@@ -257,7 +257,7 @@ const CompanyReportsView = () => {
             </div>
             
             {/* Summary */}
-            <p className="text-slate-200 text-xs leading-relaxed line-clamp-4">{report.summary}</p>
+            <p className="text-slate-200 text-sm leading-relaxed mb-4">{report.summary}</p>
             
             {/* Action Button */}
             <Button 

@@ -1,10 +1,10 @@
 
 import { useState, useEffect } from "react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Calendar, ExternalLink } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ExternalLink, X, Plus } from "lucide-react";
 
 interface NewsItem {
   id: string;
@@ -17,11 +17,14 @@ interface NewsItem {
 }
 
 const NewsView = () => {
-  const [selectedTicker, setSelectedTicker] = useState("all");
-  const [dateFilter, setDateFilter] = useState("");
+  const [selectedTickers, setSelectedTickers] = useState<string[]>(["BTC", "ETH", "TSLA", "AMZN", "GOOG"]);
+  const [dateFromFilter, setDateFromFilter] = useState("");
+  const [dateToFilter, setDateToFilter] = useState("");
+  const [keywordSearch, setKeywordSearch] = useState("");
+  const [tickerSearch, setTickerSearch] = useState("");
   const [news, setNews] = useState<NewsItem[]>([]);
 
-  const tickers = ["all", "TSLA", "AMZN", "GOOG", "BTC", "ETH"];
+  const availableTickers = ["TSLA", "AMZN", "GOOG", "BTC", "ETH", "AAPL", "MSFT", "NVDA", "META", "NFLX"];
 
   useEffect(() => {
     // Generate mock news data
@@ -77,9 +80,13 @@ const NewsView = () => {
   }, []);
 
   const filteredNews = news.filter(item => {
-    const tickerMatch = selectedTicker === "all" || item.ticker === selectedTicker;
-    const dateMatch = !dateFilter || item.date === dateFilter;
-    return tickerMatch && dateMatch;
+    const tickerMatch = selectedTickers.length === 0 || selectedTickers.includes(item.ticker);
+    const dateFromMatch = !dateFromFilter || item.date >= dateFromFilter;
+    const dateToMatch = !dateToFilter || item.date <= dateToFilter;
+    const keywordMatch = !keywordSearch || 
+      item.title.toLowerCase().includes(keywordSearch.toLowerCase()) ||
+      item.summary.toLowerCase().includes(keywordSearch.toLowerCase());
+    return tickerMatch && dateFromMatch && dateToMatch && keywordMatch;
   });
 
   const getSentimentColor = (sentiment: string) => {
@@ -90,43 +97,130 @@ const NewsView = () => {
     }
   };
 
+  const removeTicker = (tickerToRemove: string) => {
+    setSelectedTickers(prev => prev.filter(ticker => ticker !== tickerToRemove));
+  };
+
+  const addTicker = () => {
+    const upperTickerSearch = tickerSearch.toUpperCase();
+    if (upperTickerSearch && 
+        availableTickers.includes(upperTickerSearch) && 
+        !selectedTickers.includes(upperTickerSearch)) {
+      setSelectedTickers(prev => [...prev, upperTickerSearch]);
+      setTickerSearch("");
+    }
+  };
+
+  const clearAllFilters = () => {
+    setSelectedTickers([]);
+    setDateFromFilter("");
+    setDateToFilter("");
+    setKeywordSearch("");
+  };
+
+  const handleTickerSearchKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      addTicker();
+    }
+  };
+
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold bg-gradient-to-r from-slate-100 via-purple-100 to-slate-200 bg-clip-text text-transparent">
-          Market News
-        </h2>
-        <div className="flex space-x-4">
-          <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">Filter by Ticker</label>
-            <Select value={selectedTicker} onValueChange={setSelectedTicker}>
-              <SelectTrigger className="w-32 bg-slate-800/90 border-slate-600/50 text-slate-100 hover:bg-slate-700/90">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent className="bg-slate-800 border-slate-600/50">
-                {tickers.map((ticker) => (
-                  <SelectItem key={ticker} value={ticker} className="text-slate-100 hover:bg-slate-700 focus:bg-slate-700">
-                    {ticker.toUpperCase()}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+      {/* Filters Panel */}
+      <div className="bg-slate-800/40 backdrop-blur-sm border border-slate-700/50 rounded-lg p-6 space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-semibold text-slate-100">News Filters</h2>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={clearAllFilters}
+            className="border-red-500/50 text-red-400 hover:bg-red-500/10"
+          >
+            Clear All Filters
+          </Button>
+        </div>
+
+        {/* Tickers Section */}
+        <div className="space-y-3">
+          <h3 className="text-sm font-medium text-slate-300">Tickers</h3>
+          <div className="flex flex-wrap gap-2">
+            {selectedTickers.map((ticker) => (
+              <Badge
+                key={ticker}
+                className="bg-blue-600 text-white hover:bg-blue-700 px-3 py-1 flex items-center gap-2"
+              >
+                <span>{ticker === "BTC" ? "Bitcoin (BTC)" : 
+                       ticker === "ETH" ? "Ethereum (ETH)" :
+                       ticker === "TSLA" ? "Tesla (TSLA)" :
+                       ticker === "AMZN" ? "Amazon (AMZN)" :
+                       ticker === "GOOG" ? "Google (GOOG)" :
+                       ticker}</span>
+                <X 
+                  size={14} 
+                  className="cursor-pointer hover:text-red-300" 
+                  onClick={() => removeTicker(ticker)}
+                />
+              </Badge>
+            ))}
           </div>
-          <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">Filter by Date</label>
-            <div className="relative">
+          
+          {/* Add Ticker Search */}
+          <div className="flex gap-2 mt-3">
+            <Input
+              placeholder="Search ticker to add..."
+              value={tickerSearch}
+              onChange={(e) => setTickerSearch(e.target.value)}
+              onKeyPress={handleTickerSearchKeyPress}
+              className="w-48 bg-slate-700/50 border-slate-600/50 text-slate-100 placeholder:text-slate-400"
+            />
+            <Button
+              size="sm"
+              onClick={addTicker}
+              className="bg-blue-600 hover:bg-blue-700"
+            >
+              <Plus size={16} />
+            </Button>
+          </div>
+        </div>
+
+        {/* Date Range Section */}
+        <div className="space-y-3">
+          <h3 className="text-sm font-medium text-slate-300">Date Range</h3>
+          <div className="flex gap-4 items-center">
+            <div className="space-y-1">
+              <label className="text-sm text-slate-400">From:</label>
               <Input
                 type="date"
-                value={dateFilter}
-                onChange={(e) => setDateFilter(e.target.value)}
-                className="w-40 bg-slate-800/90 border-slate-600/50 text-slate-100 hover:bg-slate-700/90"
+                value={dateFromFilter}
+                onChange={(e) => setDateFromFilter(e.target.value)}
+                className="w-40 bg-slate-700/50 border-slate-600/50 text-slate-100"
               />
-              <Calendar className="absolute right-3 top-3 h-4 w-4 text-slate-400" />
+            </div>
+            <div className="space-y-1">
+              <label className="text-sm text-slate-400">To:</label>
+              <Input
+                type="date"
+                value={dateToFilter}
+                onChange={(e) => setDateToFilter(e.target.value)}
+                className="w-40 bg-slate-700/50 border-slate-600/50 text-slate-100"
+              />
             </div>
           </div>
         </div>
+
+        {/* Search Section */}
+        <div className="space-y-3">
+          <h3 className="text-sm font-medium text-slate-300">Search</h3>
+          <Input
+            placeholder="Search by keyword..."
+            value={keywordSearch}
+            onChange={(e) => setKeywordSearch(e.target.value)}
+            className="w-full bg-slate-700/50 border-slate-600/50 text-slate-100 placeholder:text-slate-400"
+          />
+        </div>
       </div>
 
+      {/* News Content */}
       <div className="space-y-4">
         {filteredNews.map((item) => (
           <Card key={item.id} className="bg-slate-800/70 border-slate-700/50 p-6 hover:bg-slate-800/90 transition-colors backdrop-blur-sm">

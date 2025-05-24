@@ -41,19 +41,19 @@ const DateRangeSection = ({
   return (
     <div className="space-y-3">
       <h3 className="text-sm font-medium text-slate-300">Date Range</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <label className="text-sm text-slate-400">From:</label>
+      <div className="flex gap-4 items-center">
+        <div className="space-y-1">
+          <label className="block text-sm font-medium text-slate-200">From:</label>
           <Popover>
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
                 className={cn(
-                  "w-40 justify-start text-left font-normal bg-slate-700/50 border-slate-600/50 text-slate-100 hover:bg-slate-600/50",
+                  "w-40 justify-start text-left font-normal bg-slate-900 border-slate-700 text-slate-50 hover:bg-slate-800",
                   !dateFromDate && "text-slate-400"
                 )}
               >
-                <CalendarIcon className="mr-2 h-4 w-4 text-slate-400" />
+                <CalendarIcon className="mr-2 h-4 w-4 text-slate-300" />
                 {dateFromDate ? format(dateFromDate, "MM/dd/yyyy") : <span className="text-slate-400">mm/dd/yyyy</span>}
               </Button>
             </PopoverTrigger>
@@ -68,18 +68,18 @@ const DateRangeSection = ({
             </PopoverContent>
           </Popover>
         </div>
-        <div className="space-y-2">
-          <label className="text-sm text-slate-400">To:</label>
+        <div className="space-y-1">
+          <label className="block text-sm font-medium text-slate-200">To:</label>
           <Popover>
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
                 className={cn(
-                  "w-40 justify-start text-left font-normal bg-slate-700/50 border-slate-600/50 text-slate-100 hover:bg-slate-600/50",
+                  "w-40 justify-start text-left font-normal bg-slate-900 border-slate-700 text-slate-50 hover:bg-slate-800",
                   !dateToDate && "text-slate-400"
                 )}
               >
-                <CalendarIcon className="mr-2 h-4 w-4 text-slate-400" />
+                <CalendarIcon className="mr-2 h-4 w-4 text-slate-300" />
                 {dateToDate ? format(dateToDate, "MM/dd/yyyy") : <span className="text-slate-400">mm/dd/yyyy</span>}
               </Button>
             </PopoverTrigger>

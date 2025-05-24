@@ -49,7 +49,7 @@ const DateRangeSection = ({
               <Button
                 variant="outline"
                 className={cn(
-                  "w-full justify-start text-left font-normal bg-slate-700/50 border-slate-600/50 text-slate-100 hover:bg-slate-600/50",
+                  "w-40 justify-start text-left font-normal bg-slate-700/50 border-slate-600/50 text-slate-100 hover:bg-slate-600/50",
                   !dateFromDate && "text-slate-400"
                 )}
               >
@@ -75,7 +75,7 @@ const DateRangeSection = ({
               <Button
                 variant="outline"
                 className={cn(
-                  "w-full justify-start text-left font-normal bg-slate-700/50 border-slate-600/50 text-slate-100 hover:bg-slate-600/50",
+                  "w-40 justify-start text-left font-normal bg-slate-700/50 border-slate-600/50 text-slate-100 hover:bg-slate-600/50",
                   !dateToDate && "text-slate-400"
                 )}
               >

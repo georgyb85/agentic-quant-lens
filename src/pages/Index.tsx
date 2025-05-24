@@ -1,12 +1,39 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { useState } from "react";
+import Sidebar from "@/components/Sidebar";
+import ChartView from "@/components/ChartView";
+import NewsView from "@/components/NewsView";
+import CompanyReportsView from "@/components/CompanyReportsView";
+import MacroReportsView from "@/components/MacroReportsView";
 
 const Index = () => {
+  const [activeView, setActiveView] = useState("chart");
+
+  const renderActiveView = () => {
+    switch (activeView) {
+      case "chart":
+        return <ChartView />;
+      case "news":
+        return <NewsView />;
+      case "company-reports":
+        return <CompanyReportsView />;
+      case "macro-reports":
+        return <MacroReportsView />;
+      default:
+        return <ChartView />;
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-gray-900 text-white flex">
+      <Sidebar activeView={activeView} setActiveView={setActiveView} />
+      <main className="flex-1 p-6">
+        <header className="mb-6">
+          <h1 className="text-3xl font-bold text-green-400">Agentic Research</h1>
+          <p className="text-gray-400 mt-2">Quantitative Trading Strategy Research Platform</p>
+        </header>
+        {renderActiveView()}
+      </main>
     </div>
   );
 };

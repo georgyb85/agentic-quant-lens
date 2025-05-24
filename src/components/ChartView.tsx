@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
-import CandlestickChart from "@/components/CandlestickChart";
+import TradingViewWidget from "@/components/TradingViewWidget";
 
 const ChartView = () => {
   const [selectedTicker, setSelectedTicker] = useState("TSLA");
@@ -49,8 +49,8 @@ const ChartView = () => {
         </div>
       </div>
 
-      <Card className="bg-gray-800 border-gray-700 p-6">
-        <CandlestickChart ticker={selectedTicker} timeframe={selectedTimeframe} />
+      <Card className="bg-gray-800 border-gray-700 p-6 h-[600px]">
+        <TradingViewWidget ticker={selectedTicker} timeframe={selectedTimeframe} />
       </Card>
     </div>
   );

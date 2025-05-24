@@ -25,7 +25,7 @@ const Sidebar = ({ activeView, setActiveView }: SidebarProps) => {
               onClick={() => setActiveView(item.id)}
               className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
                 activeView === item.id
-                  ? "bg-green-600 text-white"
+                  ? "bg-blue-600 text-white"
                   : "text-gray-300 hover:bg-gray-700 hover:text-white"
               }`}
             >

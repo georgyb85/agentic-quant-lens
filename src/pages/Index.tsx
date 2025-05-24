@@ -29,7 +29,7 @@ const Index = () => {
       <Sidebar activeView={activeView} setActiveView={setActiveView} />
       <main className="flex-1 p-6">
         <header className="mb-6">
-          <h1 className="text-3xl font-bold text-green-400">Agentic Research</h1>
+          <h1 className="text-3xl font-bold text-blue-400">Agentic Research</h1>
           <p className="text-gray-400 mt-2">Quantitative Trading Strategy Research Platform</p>
         </header>
         {renderActiveView()}

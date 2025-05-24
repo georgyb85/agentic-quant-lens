@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -198,7 +199,7 @@ const MacroReportsView = () => {
 
             <div className="flex flex-wrap gap-2 mb-3">
               {report.keyIndicators.map((indicator, index) => (
-                <Badge key={index} variant="secondary" className="bg-slate-800 text-slate-200">
+                <Badge key={index} variant="secondary" className="bg-slate-800 text-slate-200 hover:bg-slate-800 hover:text-slate-200 pointer-events-none">
                   {indicator}
                 </Badge>
               ))}

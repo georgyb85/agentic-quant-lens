@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Calendar, TrendingUp, TrendingDown } from "lucide-react";
+import { Calendar } from "lucide-react";
 
 interface MacroReport {
   id: string;
@@ -17,7 +17,8 @@ interface MacroReport {
 }
 
 const MacroReportsView = () => {
-  const [dateFilter, setDateFilter] = useState("");
+  const [dateFromFilter, setDateFromFilter] = useState("");
+  const [dateToFilter, setDateToFilter] = useState("");
   const [reports, setReports] = useState<MacroReport[]>([]);
 
   useEffect(() => {
@@ -84,8 +85,9 @@ const MacroReportsView = () => {
   }, []);
 
   const filteredReports = reports.filter(report => {
-    const dateMatch = !dateFilter || report.date === dateFilter;
-    return dateMatch;
+    const dateFromMatch = !dateFromFilter || report.date >= dateFromFilter;
+    const dateToMatch = !dateToFilter || report.date <= dateToFilter;
+    return dateFromMatch && dateToMatch;
   });
 
   const getSentimentColor = (sentiment: string) => {
@@ -108,16 +110,30 @@ const MacroReportsView = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold">Macro Economic Reports</h2>
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-1">Filter by Date</label>
-          <div className="relative">
-            <Input
-              type="date"
-              value={dateFilter}
-              onChange={(e) => setDateFilter(e.target.value)}
-              className="w-40 bg-gray-800 border-gray-600 text-white"
-            />
-            <Calendar className="absolute right-3 top-3 h-4 w-4 text-gray-400" />
+        <div className="flex gap-4 items-center">
+          <div className="space-y-1">
+            <label className="block text-sm font-medium text-gray-300">From:</label>
+            <div className="relative">
+              <Input
+                type="date"
+                value={dateFromFilter}
+                onChange={(e) => setDateFromFilter(e.target.value)}
+                className="w-40 bg-gray-800 border-gray-600 text-white pr-10"
+              />
+              <Calendar className="absolute right-3 top-3 h-4 w-4 text-gray-400" />
+            </div>
+          </div>
+          <div className="space-y-1">
+            <label className="block text-sm font-medium text-gray-300">To:</label>
+            <div className="relative">
+              <Input
+                type="date"
+                value={dateToFilter}
+                onChange={(e) => setDateToFilter(e.target.value)}
+                className="w-40 bg-gray-800 border-gray-600 text-white pr-10"
+              />
+              <Calendar className="absolute right-3 top-3 h-4 w-4 text-gray-400" />
+            </div>
           </div>
         </div>
       </div>

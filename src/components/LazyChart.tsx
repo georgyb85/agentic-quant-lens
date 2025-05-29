@@ -1,4 +1,4 @@
-﻿// src/components/LazyChart.tsx
+// src/components/LazyChart.tsx
 import React, { useEffect, useRef, useState } from 'react';
 import {
   createChart,

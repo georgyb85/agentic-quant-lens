@@ -1,4 +1,5 @@
-﻿import {
+
+import {
   createChart,
   CandlestickSeries,
   HistogramSeries,
@@ -10,6 +11,7 @@
   ISeriesApi,
   CandlestickData,
   HistogramData,
+  Time,
 } from 'lightweight-charts';
 import {
   forwardRef,
@@ -40,8 +42,8 @@ const LightweightChartComponent = forwardRef<ChartHandle, Props>(
     /* ----- refs ----- */
     const containerRef = useRef<HTMLDivElement>(null);
     const chartRef     = useRef<IChartApi | null>(null);
-    const candleRef    = useRef<ISeriesApi<'Candlestick', UTCTimestamp> | null>(null);
-    const volumeRef    = useRef<ISeriesApi<'Histogram',   UTCTimestamp> | null>(null);
+    const candleRef    = useRef<ISeriesApi<'Candlestick', Time> | null>(null);
+    const volumeRef    = useRef<ISeriesApi<'Histogram', Time> | null>(null);
 
     const dataRef      = useRef<OHLCVData[]>(data);
     const lastPrepend  = useRef(0);
@@ -83,7 +85,7 @@ const LightweightChartComponent = forwardRef<ChartHandle, Props>(
           },
         });
 
-        candleRef.current = chartRef.current.addSeries(CandlestickSeries, {
+        candleRef.current = chartRef.current.addCandlestickSeries({
           upColor        : '#26a69a',
           downColor      : '#ef5350',
           borderUpColor  : '#26a69a',
@@ -95,7 +97,7 @@ const LightweightChartComponent = forwardRef<ChartHandle, Props>(
           scaleMargins:{ top:0, bottom:0.25 },
         });
 
-        volumeRef.current = chartRef.current.addSeries(HistogramSeries, {
+        volumeRef.current = chartRef.current.addHistogramSeries({
           color       : '#26a69a80',
           priceFormat : { type:'volume' },
           priceScaleId: 'vol',
@@ -134,7 +136,7 @@ const LightweightChartComponent = forwardRef<ChartHandle, Props>(
         unsub?.();
         ro?.disconnect();
         chartRef.current?.remove();
-        /* clear refs so later effects don’t call disposed objects */
+        /* clear refs so later effects don't call disposed objects */
         chartRef.current = null;
         candleRef.current = null;
         volumeRef.current = null;
@@ -149,22 +151,22 @@ const LightweightChartComponent = forwardRef<ChartHandle, Props>(
 
       candleRef.current.setData(
         data.map(d => ({
-          time : d.time as UTCTimestamp,
+          time : d.time as Time,
           open : d.open,
           high : d.high,
           low  : d.low,
           close: d.close,
-        })) as CandlestickData[]
+        }))
       );
 
       volumeRef.current.setData(
         data.map(d => ({
-          time : d.time as UTCTimestamp,
+          time : d.time as Time,
           value: d.volume ?? 0,
           color: d.close >= d.open
             ? 'rgba(38,166,154,0.6)'
             : 'rgba(239,83,80,0.6)',
-        })) as HistogramData[]
+        }))
       );
 
       /* keep viewport after prepend */
